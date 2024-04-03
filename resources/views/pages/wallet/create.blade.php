@@ -41,11 +41,6 @@
             @enderror
 
 
-
-            {{-- <input type="text" name="category" id="category" class="form-control" placeholder=""
-                aria-describedby="helpId" /> --}}
-
-
             <div class="mb-3">
                 <label for="category_id" class="form-label">Category</label>
                 <select
@@ -60,6 +55,25 @@
                         <option value="{{ $element->id }}">{{ $element->name }}</option>
 
                     @endforeach
+                </select>
+            </div>
+
+
+            <div class="mb-3">
+                <label for="tags" class="form-label">Select Tags</label>
+                <select
+                multiple
+                    class="form-select form-select-lg"
+                    name="tags[]"
+                    id="tags"
+                >
+                    <option value="">Select Tags</option>
+                    @forelse ($tags as $element )
+                    <option value="{{ $element->id }}">{{ $element->name }}</option>
+                    @empty
+                    <option value="">Non ci sono Tags</option>
+                    @endforelse
+
                 </select>
             </div>
 

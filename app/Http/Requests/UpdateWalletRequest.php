@@ -26,6 +26,8 @@ class UpdateWalletRequest extends FormRequest
             'description' => 'required|max:128',
             'new_image' => 'nullable',
             'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'sometimes|array',
+            'tags.*' => 'exists:tags,id'
         ];
     }
 

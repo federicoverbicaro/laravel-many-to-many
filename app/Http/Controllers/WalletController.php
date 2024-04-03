@@ -8,6 +8,7 @@ use App\Http\Requests\StoreWalletRequest;
 use App\Http\Requests\UpdateWalletRequest;
 use App\Models\Category;
 use App\Models\Wallet;
+use App\Models\Tag;
 
 use Illuminate\Support\Str;
 
@@ -33,7 +34,9 @@ class WalletController extends Controller
     {
         $categories = Category::all();
 
-        return view('pages.wallet.create', compact('categories'));
+        $tags = Tag::all();
+
+        return view('pages.wallet.create', compact('categories','tags'));
     }
 
     /**
@@ -55,6 +58,12 @@ class WalletController extends Controller
         $validatedData['new_image'] = $path;
 
         $wallet = Wallet::create( $validatedData );
+
+        if($request->has('tags')){
+            $wallet->tags()->attach($request->tags);
+        }
+
+
 
         return redirect()->route('dashboard.wallets.index');
 
@@ -78,9 +87,10 @@ class WalletController extends Controller
     {
 
         $categories = Category::all();
+        $tags = Tag::all();
         $slug = Wallet::generateSlug($wallet->title);
         $validatedData['slug'] = $slug;
-        return view('pages.wallet.edit', compact('wallet','categories'));
+        return view('pages.wallet.edit', compact('wallet','categories','tags'));
     }
 
     /**
@@ -88,6 +98,8 @@ class WalletController extends Controller
      */
     public function update(UpdateWalletRequest $request, Wallet $wallet)
     {
+
+
         $validatedData = $request->validated();
         $slug = Wallet::generateSlug($request->title);
 
@@ -97,6 +109,8 @@ class WalletController extends Controller
         }
 
         $wallet->update($validatedData);
+
+
 
         return redirect()->route('dashboard.wallets.index');
     }

@@ -4,17 +4,15 @@
 @section('content')
     <h1 class="text-center text-capitalize m-3  ">Modifica il progetto</h1>
 
-    <form class="container" action="{{ route('dashboard.wallets.update',$wallet->id) }}"
-        method="post"
+    <form class="container" action="{{ route('dashboard.wallets.update', $wallet->id) }}" method="post"
         enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
         <div class="mb-3 d-flex flex-column gap-2">
             <label for="title" class="form-label">Title</label>
-            <input type="text" name="title" id="title"
-                class="form-control  @error('title') is-invalid @enderror"
-                placeholder="" value="{{ old('title',$wallet->title ) }}" />
+            <input type="text" name="title" id="title" class="form-control  @error('title') is-invalid @enderror"
+                placeholder="" value="{{ old('title', $wallet->title) }}" />
 
             @error('title')
                 <div class="alert alert-danger">
@@ -24,48 +22,60 @@
 
 
             <label for="description" class="form-label">Description</label>
-            <textarea name="description" id="description" cols="60" rows="10" class=" @error('title') is-invalid @enderror">{{ old('description',$wallet->description) }}</textarea>
+            <textarea name="description" id="description" cols="60" rows="10"
+                class=" @error('title') is-invalid @enderror">{{ old('description', $wallet->description) }}</textarea>
 
             @error('description')
-            <div class="alert alert-danger">
+                <div class="alert alert-danger">
                     {{ $message }}
-            </div>
+                </div>
             @enderror
 
 
             <label for="new_image" class="form-label">Image</label>
-            <input type="file" name="new_image" id="new_image" class="form-control @error('title') is-invalid @enderror" placeholder=""
-                aria-describedby="helpId"  value="{{ old('new_image',$wallet->new_image )}}" />
-                @error('new_image')
+            <input type="file" name="new_image" id="new_image" class="form-control @error('title') is-invalid @enderror"
+                placeholder="" aria-describedby="helpId" value="{{ old('new_image', $wallet->new_image) }}" />
+            @error('new_image')
                 <div class="alert alert-danger">
-                        {{ $message }}
+                    {{ $message }}
                 </div>
-                @enderror
+            @enderror
 
 
-                <div class="mb-3">
-                    <label for="category_id" class="form-label">Category</label>
-                    <select
-                        class="form-select form-select-lg @error('category_id') is-invalid
+            <div class="mb-3">
+                <label for="category_id" class="form-label">Category</label>
+                <select
+                    class="form-select form-select-lg @error('category_id') is-invalid
                         @enderror"
-                        name="category_id"
-                        id="category_id">
-                        <option selected value="">Select one</option>
+                    name="category_id" id="category_id">
+                    <option selected value="">Select one</option>
 
-                        @foreach ($categories as $element )
-                            <option
-                            value="{{ old('category_id',$wallet->category )}}">{{ $element->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                    @foreach ($categories as $element)
+                        <option value="{{ old('category_id', $wallet->category) }}">{{ $element->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="tags" class="form-label">Select Tags</label>
+                <select multiple class="form-select form-select-lg" name="tags[]" id="tags">
+                    <option value="">Select Tags</option>
+                    @forelse ($tags as $element)
+                    <option value="{{ $element->id }}" {{ (old('tags') !== null && in_array($element->id, old('tags'))) || ($wallet->tags->contains($element->id)) ? 'selected' : '' }}>{{ $element->name }}</option>
+                    @empty
+                        <option value="">Non ci sono Tags</option>
+                    @endforelse
+
+                </select>
+            </div>
 
             <label for="client" class="form-label">Client</label>
             <input type="text" name="client" id="client" class="form-control" placeholder=""
-                aria-describedby="helpId" value="{{ old('client',$wallet->client )}}" />
+                aria-describedby="helpId" value="{{ old('client', $wallet->client) }}" />
 
             <label for="date" class="form-label">Date</label>
             <input type="date" name="date" id="date" class="form-control" placeholder=""
-                aria-describedby="helpId" value="{{ old('date',$wallet->date ) }}"/>
+                aria-describedby="helpId" value="{{ old('date', $wallet->date) }}" />
         </div>
 
         <button type="submit" class="btn btn-primary ">Invia</button>
