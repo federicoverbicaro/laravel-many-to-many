@@ -120,7 +120,7 @@ class WalletController extends Controller
      */
     public function destroy(Wallet $wallet)
     {
-
+        $wallet->tags()->sync([]);
         $wallet->delete();
 
         return redirect()->route('dashboard.wallets.index');
