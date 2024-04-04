@@ -27,7 +27,7 @@ class UpdateWalletRequest extends FormRequest
             'new_image' => 'nullable',
             'category_id' => 'nullable|exists:categories,id',
             'tags' => 'sometimes|array',
-            'tags.*' => 'exists:tags,id'
+             'tags.*' => 'exists:tags,id'
         ];
     }
 

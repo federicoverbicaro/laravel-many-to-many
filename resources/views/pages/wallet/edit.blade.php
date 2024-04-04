@@ -4,7 +4,7 @@
 @section('content')
     <h1 class="text-center text-capitalize m-3  ">Modifica il progetto</h1>
 
-    <form class="container" action="{{ route('dashboard.wallets.update', $wallet->id) }}" method="post"
+    <form class="container" action="{{ route('dashboard.wallets.update', $wallet->slug) }}" method="post"
         enctype="multipart/form-data">
         @csrf
         @method('PUT')

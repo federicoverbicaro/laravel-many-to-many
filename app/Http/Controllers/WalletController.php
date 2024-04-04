@@ -87,9 +87,13 @@ class WalletController extends Controller
     {
 
         $categories = Category::all();
+
         $tags = Tag::all();
+
         $slug = Wallet::generateSlug($wallet->title);
         $validatedData['slug'] = $slug;
+
+
         return view('pages.wallet.edit', compact('wallet','categories','tags'));
     }
 
@@ -110,6 +114,9 @@ class WalletController extends Controller
 
         $wallet->update($validatedData);
 
+         if($request->has('tags')){
+             $wallet->tags()->sync($request->tags);
+         }
 
 
         return redirect()->route('dashboard.wallets.index');
